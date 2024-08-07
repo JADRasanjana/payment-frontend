@@ -170,10 +170,10 @@ function SubRowAsync() {
 
 // ==============================|| REACT TABLE ||============================== //
 
-function ReactTable({ columns: userColumns, data, renderRowSubComponent }) {
+function ReactTable({ columns: paymentColumns, data, renderRowSubComponent }) {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, visibleColumns } = useTable(
     {
-      columns: userColumns,
+      columns: paymentColumns,
       data
     },
     useExpanded

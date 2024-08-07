@@ -33,7 +33,7 @@ const avatarImage = require.context('assets/images/users', true);
 
 // ==============================|| CUSTOMER - VIEW ||============================== //
 
-const UserView = ({ data }) => {
+const PaymentView = ({ data }) => {
   const theme = useTheme();
   const matchDownMD = useMediaQuery(theme.breakpoints.down('md'));
 
@@ -68,7 +68,7 @@ const UserView = ({ data }) => {
                   <Grid item xs={12}>
                     <Divider />
                   </Grid>
-                  <Grid item xs={12}>
+                  {/* <Grid item xs={12}>
                     <Stack direction="row" justifyContent="space-around" alignItems="center">
                       <Stack spacing={0.5} alignItems="center">
                         <Typography variant="h5">{data.jobRole}</Typography>
@@ -80,7 +80,7 @@ const UserView = ({ data }) => {
                         <Typography color="secondary">User Role</Typography>
                       </Stack>
                     </Stack>
-                  </Grid>
+                  </Grid> */}
                   <Grid item xs={12}>
                     <Divider />
                   </Grid>
@@ -125,15 +125,15 @@ const UserView = ({ data }) => {
                     </ListItem>
                     <ListItem divider={!matchDownMD}>
                       <Grid container spacing={3}>
-                        <Grid item xs={12} md={6}>
+                        {/* <Grid item xs={12} md={6}>
                           <Stack spacing={0.5}>
                             <Typography color="secondary">Date of Birth</Typography>
                             <Typography>{data.dateOfBirth?.split('T')[0]}</Typography>
                           </Stack>
-                        </Grid>
+                        </Grid> */}
                         <Grid item xs={12} md={6}>
                           <Stack spacing={0.5}>
-                            <Typography color="secondary">Start Date</Typography>
+                            <Typography color="secondary">Payment Date</Typography>
                             <Typography>
                               <Typography>{data.startDate.split('T')[0]}</Typography>
                             </Typography>
@@ -172,8 +172,8 @@ const UserView = ({ data }) => {
   );
 };
 
-UserView.propTypes = {
+PaymentView.propTypes = {
   data: PropTypes.object
 };
 
-export default UserView;
+export default PaymentView;

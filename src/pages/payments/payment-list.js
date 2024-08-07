@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import MainCard from 'components/MainCard';
-import UserTable from './components/payment-table';
+import PaymentTable from './components/payment-table';
 import ScrollX from 'components/ScrollX';
-import AlertUserDelete from './components/payment-delete-alert';
+import AlertPaymentDelete from './components/payment-delete-alert';
 import { Chip, Dialog, IconButton, Stack, Tooltip, Typography, useTheme } from '@mui/material';
-import AddUser from './components/add-payment';
+import AddPayment from './components/add-payment';
 import { useMemo, useState } from 'react';
 import { PopupTransition } from 'components/@extended/Transitions';
 import { IndeterminateCheckbox } from 'components/third-party/ReactTable';
@@ -12,7 +12,7 @@ import Avatar from 'components/@extended/Avatar';
 import { PatternFormat } from 'react-number-format';
 import { CloseOutlined, EditTwoTone, EyeTwoTone } from '@ant-design/icons';
 
-// ==============================|| USER - LIST ||============================== //
+// ==============================|| PAYMNET- LIST ||============================== //
 
 // Section Cell and Header
 const SelectionCell = ({ row }) => <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />;
@@ -54,7 +54,7 @@ const StatusCell = ({ value }) => {
   }
 };
 
-const ActionCell = (row, setUser, setCustomerDeleteId, handleAdd, handleClose, theme) => {
+const ActionCell = (row, setPayment, setCustomerDeleteId, handleAdd, handleClose, theme) => {
   const collapseIcon = row.isExpanded ? (
     <CloseOutlined style={{ color: theme.palette.error.main }} />
   ) : (
@@ -78,7 +78,7 @@ const ActionCell = (row, setUser, setCustomerDeleteId, handleAdd, handleClose, t
           color="primary"
           onClick={(e) => {
             e.stopPropagation();
-            setUser(row.values);
+            setPayment(row.values);
             handleAdd();
           }}
         >
@@ -124,20 +124,20 @@ SelectionHeader.propTypes = {
   getToggleAllPageRowsSelectedProps: PropTypes.func
 };
 
-const UserListPage = () => {
+const PaymentListPage = () => {
   const theme = useTheme();
 
   const [add, setAdd] = useState(false);
   const [open, setOpen] = useState(false);
-  const [user, setUser] = useState();
-  const [deletingUser, setDeletingUser] = useState({
+  const [paymnet, setPaymnet] = useState();
+  const [deletingPaymnet, setDeletingPaymnet] = useState({
     _id: null,
     name: ''
   });
 
   const handleAdd = () => {
     setAdd(!add);
-    if (user && !add) setUser(null);
+    if (paymnet && !add) setPaymnet(null);
   };
 
   const handleClose = () => {
@@ -179,39 +179,35 @@ const UserListPage = () => {
         Cell: NumberFormatCell
       },
       {
-        Header: 'Job Role',
-        accessor: 'jobRole'
-      },
-      {
         Header: 'Image',
         accessor: 'photo'
       },
+      // {
+      //   Header: 'Role',
+      //   accessor: 'role._id'
+      // },
       {
-        Header: 'Role',
-        accessor: 'role._id'
-      },
-      {
-        Header: 'Start Date',
+        Header: 'Paymnet Date',
         accessor: 'startDate'
       },
-      {
-        Header: 'Date of Birth',
-        accessor: 'dateOfBirth'
-      },
+      // {
+      //   Header: 'Date of Birth',
+      //   accessor: 'dateOfBirth'
+      // },
       {
         Header: 'Note',
         accessor: 'note'
       },
-      {
-        Header: 'Status',
-        accessor: 'accountStatus',
-        Cell: StatusCell
-      },
+      // {
+      //   Header: 'Status',
+      //   accessor: 'accountStatus',
+      //   Cell: StatusCell
+      // },
       {
         Header: 'Actions',
         className: 'cell-center',
         disableSortBy: true,
-        Cell: ({ row }) => ActionCell(row, setUser, setDeletingUser, handleAdd, handleClose, theme)
+        Cell: ({ row }) => ActionCell(row, setPaymnet, setDeletingPaymnet, handleAdd, handleClose, theme)
       }
     ],
     //
@@ -221,10 +217,10 @@ const UserListPage = () => {
   return (
     <MainCard content={false}>
       <ScrollX>
-        <UserTable columns={columns} handleAdd={handleAdd} getHeaderProps={(column) => column.getSortByToggleProps()} />
+        <PaymentTable columns={columns} handleAdd={handleAdd} getHeaderProps={(column) => column.getSortByToggleProps()} />
       </ScrollX>
-      <AlertUserDelete title={deletingUser.name} userId={deletingUser._id} open={open} handleClose={handleClose} />
-      {/* add user dialog */}
+      <AlertPaymentDelete title={deletingPaymnet.name} paymnetId={deletingPaymnet._id} open={open} handleClose={handleClose} />
+      {/* add Paymnet dialog */}
       <Dialog
         maxWidth="sm"
         TransitionComponent={PopupTransition}
@@ -235,10 +231,10 @@ const UserListPage = () => {
         sx={{ '& .MuiDialog-paper': { p: 0 }, transition: 'transform 225ms' }}
         aria-describedby="alert-dialog-slide-description"
       >
-        <AddUser user={user} onCancel={handleAdd} />
+        <AddPayment payment={paymnet} onCancel={handleAdd} />
       </Dialog>
     </MainCard>
   );
 };
 
-export default UserListPage;
+export default PaymentListPage;

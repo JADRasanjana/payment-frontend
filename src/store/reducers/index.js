@@ -5,7 +5,7 @@ import storage from 'redux-persist/lib/storage';
 
 // project import
 import chat from './chat';
-import users from './user';
+import payments from './payment';
 import menu from './menu';
 import snackbar from './snackbar';
 import cartReducer from './cart';
@@ -13,7 +13,7 @@ import cartReducer from './cart';
 
 const reducers = combineReducers({
   chat,
-  users,
+  payments,
   menu,
   snackbar,
   cart: persistReducer(

@@ -10,8 +10,8 @@ import { dispatch } from '../index';
 const initialState = {
   error: null,
   chats: [],
-  user: {},
-  users: []
+  payment: {},
+  payments: []
 };
 
 const chat = createSlice({
@@ -23,19 +23,19 @@ const chat = createSlice({
       state.error = action.payload;
     },
 
-    // GET USER
-    getUserSuccess(state, action) {
-      state.user = action.payload;
+    // GET PAYMENT
+    getPaymentSuccess(state, action) {
+      state.payment = action.payload;
     },
 
-    // GET USER CHATS
-    getUserChatsSuccess(state, action) {
+    // GET PAYMENT CHATS
+    getPaymentChatsSuccess(state, action) {
       state.chats = action.payload;
     },
 
-    // GET USERS
-    getUsersSuccess(state, action) {
-      state.users = action.payload;
+    // GET PAYMENTS
+    getPaymentsSuccess(state, action) {
+      state.payments = action.payload;
     }
   }
 });
@@ -45,22 +45,22 @@ export default chat.reducer;
 
 // ----------------------------------------------------------------------
 
-export function getUser(id) {
+export function getPayment(id) {
   return async () => {
     try {
-      const response = await axios.post('/api/chat/users/id', { id });
-      dispatch(chat.actions.getUserSuccess(response.data));
+      const response = await axios.post('/api/chat/payments/id', { id });
+      dispatch(chat.actions.getPaymentSuccess(response.data));
     } catch (error) {
       dispatch(chat.actions.hasError(error));
     }
   };
 }
 
-export function getUserChats(user) {
+export function getPaymentChats(payment) {
   return async () => {
     try {
-      const response = await axios.post('/api/chat/filter', { user });
-      dispatch(chat.actions.getUserChatsSuccess(response.data));
+      const response = await axios.post('/api/chat/filter', { payment });
+      dispatch(chat.actions.getPaymentChatsSuccess(response.data));
     } catch (error) {
       dispatch(chat.actions.hasError(error));
     }
@@ -77,11 +77,11 @@ export function insertChat(chat) {
   };
 }
 
-export function getUsers() {
+export function getPayments() {
   return async () => {
     try {
-      const response = await axios.get('/api/chat/users');
-      dispatch(chat.actions.getUsersSuccess(response.data.users));
+      const response = await axios.get('/api/chat/payments');
+      dispatch(chat.actions.getPaymentsSuccess(response.data.payments));
     } catch (error) {
       dispatch(chat.actions.hasError(error));
     }

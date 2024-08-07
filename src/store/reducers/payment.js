@@ -7,19 +7,19 @@ const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit")
 const initialState = {
     action: false,
     error: null,
-    user: {},
-    users: {
-        users: [],
+    payment: {},
+    payments: {
+        payments: [],
         page: null,
         total: null,
         limit: null,
     },
-    deletedUser: {},
+    deletedPayment: {},
     uploadedImageUrl: null,
 }
 
-const users = createSlice({
-    name: 'users',
+const payments = createSlice({
+    name: 'payments',
     initialState,
     reducers: {
         // HAS ERROR
@@ -28,12 +28,12 @@ const users = createSlice({
         },
 
         // GET CUSTOMERS
-        getUsersSuccess(state, action) {
-            state.users = action.payload;
+        getPaymentsSuccess(state, action) {
+            state.payments = action.payload;
         },
 
-        deleteUserSuccess(state, action) {
-            state.deletedUser = action.payload;
+        deletePaymnetSuccess(state, action) {
+            state.deletedPayment = action.payload;
         },
 
         setAction(state) {
@@ -46,17 +46,17 @@ const users = createSlice({
     }
 });
 
-export default users.reducer;
+export default payments.reducer;
 
-export function setActionUser() {
-    dispatch(users.actions.setAction());
+export function setActionPayment() {
+    dispatch(payments.actions.setAction());
 }
 
-export function getUsers(pageIndex = 0, pageSize = 10, query) {
+export function getPayments(pageIndex = 0, pageSize = 10, query) {
     return async () => {
         try {
 
-            let requestUrl = `/api/v1/user?page=${pageIndex + 1}&limit=${pageSize}`;
+            let requestUrl = `/api/v1/payment?page=${pageIndex + 1}&limit=${pageSize}`;
 
             if (query) {
                 requestUrl = `${requestUrl}&query=${query}`
@@ -65,19 +65,19 @@ export function getUsers(pageIndex = 0, pageSize = 10, query) {
             const response = await axios.get(requestUrl);
 
             if (response.status === 200) {
-                dispatch(users.actions.getUsersSuccess(response.data.data));
+                dispatch(payments.actions.getPaymentsSuccess(response.data.data));
             }
 
         } catch (error) {
-            dispatch(users.actions.hasError(error));
+            dispatch(payments.actions.hasError(error));
         }
     };
 }
 
-export function createUser(values) {
+export function createPayment(values) {
     return async () => {
         try {
-            const response = await axios.post('/api/v1/user', {
+            const response = await axios.post('/api/v1/payment', {
                 ...values,
                 start_date: values.startdate,
                 role_id: values.role,
@@ -88,12 +88,12 @@ export function createUser(values) {
 
             if (response.status === 200) {
 
-                setActionUser();
+                setActionPayment();
 
                 dispatch(
                     openSnackbar({
                         open: true,
-                        message: 'User crated successfully.',
+                        message: 'Payment crated successfully.',
                         variant: 'alert',
                         alert: {
                             color: 'success'
@@ -108,7 +108,7 @@ export function createUser(values) {
             dispatch(
                 openSnackbar({
                     open: true,
-                    message: 'User could not create.',
+                    message: 'Payment could not create.',
                     variant: 'alert',
                     alert: {
                         color: 'error'
@@ -116,31 +116,31 @@ export function createUser(values) {
                     close: false
                 })
             );
-            dispatch(users.actions.hasError(err));
+            dispatch(payments.actions.hasError(err));
         }
     }
 }
 
-export function updateUser(userId, values) {
+export function updatePayment(paymentId, values) {
     return async () => {
         try {
-            const response = await axios.put(`/api/v1/user/${userId}/update`, {
+            const response = await axios.put(`/api/v1/payment/${paymentId}/update`, {
                 ...values,
                 start_date: values.startdate,
-                role_id: values.role,
-                job_role: values.jobrole,
+                // role_id: values.role,
+                // job_role: values.jobrole,
                 photo: values.imageUrl,
                 document: values.imageUrl, // TODO: replace document
             });
 
             if (response.status === 200) {
 
-                setActionUser();
+                setActionPayment();
 
                 dispatch(
                     openSnackbar({
                         open: true,
-                        message: 'User updated successfully.',
+                        message: 'Payments updated successfully.',
                         variant: 'alert',
                         alert: {
                             color: 'success'
@@ -155,7 +155,7 @@ export function updateUser(userId, values) {
             dispatch(
                 openSnackbar({
                     open: true,
-                    message: 'User could not update.',
+                    message: 'Payments could not update.',
                     variant: 'alert',
                     alert: {
                         color: 'error'
@@ -163,26 +163,26 @@ export function updateUser(userId, values) {
                     close: false
                 })
             );
-            dispatch(users.actions.hasError(err));
+            dispatch(payments.actions.hasError(err));
         }
     }
 }
 
-export function deleteUser(userId) {
+export function deletePayment(paymentId) {
     return async () => {
         try {
-            const response = await axios.delete(`/api/v1/user/${userId}/delete`);
+            const response = await axios.delete(`/api/v1/payment/${paymentId}/delete`);
 
             if (response.status === 200) {
 
-                dispatch(users.actions.deleteUserSuccess(response.data));
+                dispatch(payments.actions.deletePaymentSuccess(response.data));
 
-                setActionUser();
+                setActionPayment();
 
                 dispatch(
                     openSnackbar({
                         open: true,
-                        message: 'User deleted successfully.',
+                        message: 'Payment deleted successfully.',
                         variant: 'alert',
                         alert: {
                             color: 'success'
@@ -196,7 +196,7 @@ export function deleteUser(userId) {
             dispatch(
                 openSnackbar({
                     open: true,
-                    message: 'User deleted failed.',
+                    message: 'Payment deleted failed.',
                     variant: 'alert',
                     alert: {
                         color: 'error'
@@ -204,12 +204,12 @@ export function deleteUser(userId) {
                     close: false
                 })
             );
-            dispatch(users.actions.hasError(error));
+            dispatch(payments.actions.hasError(error));
         }
     };
 }
 
-export const uploadUserImage = createAsyncThunk('', async (image) => {
+export const uploadpaymentImage = createAsyncThunk('', async (image) => {
     try {
 
         dispatch(
@@ -247,7 +247,7 @@ export const uploadUserImage = createAsyncThunk('', async (image) => {
                 })
             );
 
-            dispatch(users.actions.setUploadedImageSuccess(response.data.data.file_url));
+            dispatch(payments.actions.setUploadedImageSuccess(response.data.data.file_url));
 
             return response.data.data.file_url;
         }
@@ -264,6 +264,6 @@ export const uploadUserImage = createAsyncThunk('', async (image) => {
                 close: false
             })
         );
-        dispatch(users.actions.hasError(error));
+        dispatch(payments.actions.hasError(error));
     }
 });

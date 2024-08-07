@@ -25,9 +25,9 @@ function PaymentTable({ columns, getHeaderProps, handleAdd }) {
   const [numOfPages, setNumOfPages] = useState(10);
 
   const {
-    users: { users, total },
+    payments: { payments, total },
     action
-  } = useSelector((state) => state.users);
+  } = useSelector((state) => state.payments);
 
   const {
     getTableProps,
@@ -49,7 +49,7 @@ function PaymentTable({ columns, getHeaderProps, handleAdd }) {
   } = useTable(
     {
       columns,
-      data: users,
+      data: payments,
       filterTypes,
       initialState: { pageIndex: 0, pageSize: 10, hiddenColumns: ['photo', 'role._id', 'startDate', 'note', 'dateOfBirth'] },
       manualPagination: true,
@@ -66,7 +66,7 @@ function PaymentTable({ columns, getHeaderProps, handleAdd }) {
 
   useEffect(() => {
     // dispatch(getRoles(pageIndex, pageSize, query));
-    dispatch(getUsers(pageIndex, pageSize, query));
+    dispatch(getPayments(pageIndex, pageSize, query));
   }, [pageIndex, pageSize, query, action]);
 
   // useEffect(() => {
@@ -80,9 +80,9 @@ function PaymentTable({ columns, getHeaderProps, handleAdd }) {
 
   const renderRowSubComponent = useCallback(
     ({ row }) => {
-      return <UserView data={users.find((user) => user._id === row.values._id)} />;
+      return <UserView data={payments.find((payment) => payment._id === row.values._id)} />;
     },
-    [users]
+    [payments]
   );
 
   return (
@@ -111,9 +111,9 @@ function PaymentTable({ columns, getHeaderProps, handleAdd }) {
           <Stack direction={matchDownSM ? 'column' : 'row'} alignItems="center" spacing={1}>
             <SortingSelect sortBy={sortBy.id} setSortBy={setSortBy} allColumns={allColumns} />
             <Button variant="contained" startIcon={<PlusOutlined />} onClick={handleAdd} size="small">
-              Add User
+              Add Payment
             </Button>
-            <CSVExport data={selectedFlatRows.length > 0 ? selectedFlatRows.map((d) => d.original) : users} filename={'user-list.csv'} />
+            <CSVExport data={selectedFlatRows.length > 0 ? selectedFlatRows.map((d) => d.original) : payments} filename={'payment-list.csv'} />
           </Stack>
         </Stack>
 
@@ -176,7 +176,7 @@ function PaymentTable({ columns, getHeaderProps, handleAdd }) {
   );
 }
 
-UserTable.propTypes = {
+PaymentTable.propTypes = {
   columns: PropTypes.array,
   data: PropTypes.array,
   getHeaderProps: PropTypes.func,
@@ -184,4 +184,4 @@ UserTable.propTypes = {
   renderRowSubComponent: PropTypes.any
 };
 
-export default UserTable;
+export default PaymentTable;

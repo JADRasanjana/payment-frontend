@@ -6,7 +6,8 @@ import CommonLayout from 'layout/CommonLayout';
 import Loadable from 'components/Loadable';
 import AuthGuard from 'utils/route-guard/AuthGuard';
 
-const AppUserList = Loadable(lazy(() => import('pages/users/user-list')));
+//const AppUserList = Loadable(lazy(() => import('pages/users/user-list')));
+const AppPaymentList = Loadable(lazy(() => import('pages/payments/payment-list')));
 
 const AppInvoiceDashboard = Loadable(lazy(() => import('pages/dashboard/analytics')));
 
@@ -53,11 +54,11 @@ const MainRoutes = {
           ]
         },
         {
-          path: 'user',
+          path: 'payment',
           children: [
             {
-              path: 'user-list',
-              element: <AppUserList />
+              path: 'payment-list',
+              element: <AppPaymentList />
             },
             // {
             //   path: 'role-list',
